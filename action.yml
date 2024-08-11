@@ -1,7 +1,7 @@
 name: "Version Increment Action"
 description: "Automatically increments the version in a specified version file."
 author: "Michael Primke"
-icon: "anchor"
+
 
 inputs:
   file_path:
