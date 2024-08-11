@@ -94,4 +94,4 @@ runs:
       uses: peter-evans/enable-pull-request-automerge@v2
       with:
         token: ${{ inputs.github_token }}
-        pull-request-number: ${{ steps.create_pull_request.outputs.pull_request_number }}
+        pull-request-number: ${{ env.pull_request_number }}
