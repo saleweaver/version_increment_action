@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Increment version
-        uses: saleweaver/version_increment_action@v1
+        uses: saleweaver/version_increment_action@v4
         with:
           file_path: "<path_to_your>/__version__.py"
           version_key: "__version__"
@@ -51,6 +51,8 @@ jobs:
           release_name: "v${{ env.new_version }}"
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 
@@ -58,6 +60,7 @@ jobs:
 
 - **`file_path`** (required): The path to the file containing the version string.
 - **`version_key`** (required): The key used to identify the version string in the file.
+- **`base_branch`** (required): The branch to which the version bump PR should be merged.
 
 ## Outputs
 
