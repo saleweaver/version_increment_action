@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Increment version
-        uses: yourusername/version-increment-action@v1
+        uses: saleweaver/version-increment-action@v1
         with:
           file_path: '<path_to_your>/__version__.py'
           version_key: '__version__' # key to search for in the file, holding the version 
