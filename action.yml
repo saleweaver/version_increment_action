@@ -10,12 +10,7 @@ inputs:
   version_key:
     description: "The version key to search for (e.g., '__version__')."
     required: true
-  base_branch:
-    description: "The branch to which the version bump PR should be merged."
-    required: true
-  github_token:
-    description: "GitHub token for authentication."
-    required: true
+
 outputs:
   new_version:
     description: "The new version number."
@@ -24,6 +19,10 @@ runs:
   using: "composite"
   steps:
     - run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "GitHub Actions"
+        git checkout -b version-bump-$NEW_VERSION
+        
         CURRENT_VERSION=$(grep "${{ inputs.version_key }}" ${{ inputs.file_path }} | cut -d "'" -f2)
         echo "Current version: $CURRENT_VERSION"
 
@@ -69,9 +68,7 @@ runs:
         echo "${{ inputs.version_key }} = '$NEW_VERSION'" > ${{ inputs.file_path }}
 
         # Configure git and commit the change
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "GitHub Actions"
-        git checkout -b version-bump-$NEW_VERSION
+        
         git add moloni/__version__.py
         git commit -m "Bump version to $NEW_VERSION"
         git push origin version-bump-$NEW_VERSION
@@ -80,18 +77,3 @@ runs:
         echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
       shell: bash
 
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v4
-      with:
-        token: ${{ inputs.github_token }}
-        branch: version-bump-${{ env.new_version }}
-        title: "Bump version to ${{ env.new_version }}"
-        body: "This PR increments the version number to ${{ env.new_version }}."
-        base: ${{ inputs.base_branch }}
-        labels: version-bump
-
-    - name: Enable Auto-Merge
-      uses: peter-evans/enable-pull-request-automerge@v2
-      with:
-        token: ${{ inputs.github_token }}
-        pull-request-number: ${{ env.pull_request_number }}

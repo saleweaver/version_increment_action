@@ -60,7 +60,6 @@ jobs:
 
 - **`file_path`** (required): The path to the file containing the version string.
 - **`version_key`** (required): The key used to identify the version string in the file.
-- **`base_branch`** (required): The branch to which the version bump PR should be merged.
 
 ## Outputs
 
