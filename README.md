@@ -30,6 +30,9 @@ on:
 jobs:
   versioning:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
