@@ -13,6 +13,9 @@ inputs:
   base_branch:
     description: "The branch to which the version bump PR should be merged."
     required: true
+  github_token:
+    description: "GitHub token for authentication."
+    required: true
 outputs:
   new_version:
     description: "The new version number."
@@ -80,7 +83,7 @@ runs:
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ inputs.github_token }}
         branch: version-bump-${{ env.new_version }}
         title: "Bump version to ${{ env.new_version }}"
         body: "This PR increments the version number to ${{ env.new_version }}."
@@ -90,13 +93,13 @@ runs:
     - name: Enable Auto-Merge
       uses: peter-evans/enable-pull-request-automerge@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ inputs.github_token }}
         pull-request-number: ${{ steps.create_pull_request.outputs.pull_request_number }}
 
     - name: Merge Pull Request
       uses: peter-evans/merge-pull-request@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ inputs.github_token }}
         pull-request-number: ${{ steps.create_pull_request.outputs.pull_request_number }}
         merge-method: squash
         commit-title: "Auto-merged PR"
