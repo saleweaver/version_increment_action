@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Increment version
-        uses: saleweaver/version_increment_action@v4
+        uses: saleweaver/version_increment_action@v1
         with:
           file_path: "<path_to_your>/__version__.py"
           version_key: "__version__"
